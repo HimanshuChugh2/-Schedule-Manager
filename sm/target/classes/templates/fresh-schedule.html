@@ -1,0 +1,87 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/header :: headHeader">
+<title>Hello, world!</title>
+</head> 
+
+
+
+<body class="outerdiv">
+ <div th:insert="fragments/header :: header">
+ </div>
+      <div class="container" style="height=:100%">
+<form> <!-- th:object="${tifaTwo}" -->
+
+
+ <div th:if="${message}"  class="alert alert-primary">
+	<span th:text="${message}"></span>
+	</div>
+<!-- <h2 th:text="${tifaTwo.goal}"></h2>   <br/> -->
+
+
+<table class="table table-bordered table-dark">
+<tr th:each="datavar,iterstat : ${data}" th:style="${iterstat.odd}? 'font-weight: bold;'">
+		
+     <td th:text="${datavar}" th:id="|td${iterstat.index}|"> </td>
+ 
+	
+       
+
+</tr>
+</table>
+<div>
+
+<canvas id="MyPieChart" style=" height:150, width:150">
+
+</canvas>
+
+</div>
+
+
+
+
+<!-- <table class="table table-bordered table-striped">
+
+<tr><td> Start getting ready for work at: </td><td th:text="${gettingReady}">  </td></tr>  
+
+<tr><td>Start commuting to work from  : </td><td th:text="${commutefromhome}"> </td></tr>  
+
+<tr><td>Work </td> <td th:text="${'from '+ tifaTwo.workingHoursFrom + ' to ' + tifaTwo.workingHoursTo}"> </td></tr> 
+
+ 
+<tr><td>Commute back to home from</td> <td th:text="${tifaTwo.commuteTime}"> </td></tr>   
+ 
+<tr><td>Start working out from </td><td  th:text="${tifaTwo.workoutTime}"> </td></tr>  
+
+<tr><td>Start having a meal from : </td><td th:text="${mealTime}">  </td></tr>   
+
+<tr><td>Use Phone till  </td><td  th:text="${tifaTwo.phoneTime}"> </td></tr> 
+
+<tr><td>Here is the goal time</td> <td th:text="${goalTime}"> </td></tr>  
+
+ 
+<tr><td>Start getting ready for sleep: <td  th:text="${gettingReadyForSleep}">    </td></tr>
+<tr><td>TURN THE SLEEP MODE ON: </td> <td th:text="${goToSleep}">  </tr>
+<tr><td>Good Morning: </td> <td th:text="${wakeUpFromSleep}">  </tr>
+
+</table>
+ -->
+<!--  th:value="${tifaTwo.commuteTime}" th:field="${tifaTwo.commuteTime}" -->
+
+</form>
+
+</div>
+<div class=" bg-dark rounded footer">
+<span style="color:white"> How did we do ? <a href="feedback"> Click here to rate us </a> </span>
+</div>
+<!--   <div th:insert="fragments/footer :: footer"></div>
+ --><script>
+var chartDatafresh	="[[${convertedJson}]]"
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<script type="text/javascript" th:src="@{js/jsfile.js}"></script>	
+
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    
+<meta charset="ISO-8859-1">
+<html>
+
+<head>
+ <!-- <link  type="text/css" href="META-INF/resources/webjars/bootstrap/3.3.6/css/bootstrap.min.css"
+	    		rel="stylesheet"> -->
+	    		
+	    		 <link  type="text/css"	src="C:/Users/chughima/.m2/repository/org/webjars/bootstrap/3.3.6/bootstrap-3.3.6-sources.jar/META-INF/resources/webjars/bootstrap/3.3.6/js/bootstrap.min.css">
+	   
+	    		
+	    		
+	    		
+
+</head>
+<body>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+ <head>
+<meta charset="utf-8" />
+<title>Create New Product</title>
+   <head th:insert="fragments/header :: headHeader">
+
+</head>
+<body>
+    <div th:insert="fragments/header :: header">
+</div>
+    <div align="center">
+        <h1>Create New Product</h1>
+        <br />
+     	  <form th:action="@{/save}" method="post" th:object="${tifa}">
+ 
+            <table border="1">
+                <tr>
+                    <td>workingHours </td>
+                    <td><input type="text" th:field="${tifa.workingHours}"/></td>
+                </tr>
+                <tr>
+                    <td>commuteTime:</td>
+                    <td><input type="text" th:field="${tifa.commuteTime}"  /></td>
+                </tr>
+                <tr>
+                    <td>workoutTime</td>
+                    <td><input type="text" th:field="${tifa.workoutTime}" /></td>
+                </tr>
+                <tr>
+                    <td>mealTime: </td>
+                    <td><input type="text"  th:field="${tifa.mealTime}" /></td>
+                </tr>    
+                
+                <tr>
+                    <td>phoneTime:</td>
+                    <td><input type="text" th:field="${tifa.phoneTime}"  /></td>
+                
+                </tr>
+                <tr>
+                    <td>sleepTime: </td>
+                    <td> <input type="text" th:field="${tifa.sleepTime}" /></td>
+                </tr>
+                          
+                <tr>
+                    <td colspan="2"><button type="submit">Save</button> </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
