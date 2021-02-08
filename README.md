@@ -1,4 +1,4 @@
-The app is currently hosted on Heroku. Please feel free to take a look -> https://korenani.herokuapp.com;
+The app is currently hosted on Heroku. Please feel free to take a look -> https://routine-generator.herokuapp.com;
 
 *Please note that the app is still in development*
 
