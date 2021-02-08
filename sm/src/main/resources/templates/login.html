@@ -7,11 +7,13 @@
      <head th:insert="fragments/header :: headHeader">
 
   
-    <title>Hello, world!</title>
+    <title>Login to SM</title>
      
   </head> 
   
   <body class="outerdiv">
+      <div th:insert="fragments/header :: header">
+      </div>
 <!--    
     <div th:insert="fragments/header :: header">
 
@@ -19,14 +21,14 @@
 <form action="#" 	th:action="@{/login}" method="post">
   
 	
- 	<div class="container p-5"> 
+ 	<div class="container">
  	
- 	<h2>	Login</h2>
- 	<div  th:if="${param.logout}" class="alert alert-success">
+ 	<h2 class="center innerdiv" style="padding-bottom:10px; padding-left:0">	Login here</h2>
+ 	<div  th:if="${param.logout}" class="alert alert-success center innerdiv">
 	You have been logged out from the session
 	</div>
 	
-	<div  th:if="${param.error}" class="alert alert-danger">
+	<div  th:if="${param.error}" class="alert alert-danger center innerdiv">
 	Invalid username or Password
 	</div>
 
@@ -34,7 +36,7 @@
 	
 <!--  	<div class="alert alert" style="max-width:40%">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut. Maecenas imperdiet felis nisi, fringilla luctus felis hendrerit sit amet. Pellentesque interdum, nisl nec interdum maximus, augue diam porttitor lorem, et sollicitudin felis neque sit amet erat.</div>
 -->	
-	<div class="innerdiv border-white border-left shadow-lg mb-5 bg-white p-5 rounded"> 
+ <div class="border border-white shadow-lg bg-white rounded innerdiv center"> 
  
  	 
 	
@@ -48,13 +50,32 @@
    <input required class="form-control form-control-sm" type="Password" placeholder="password"  name="password">
           	  <br>
    
-    <input type="submit"  value="Login"  class="btn btn-warning"/>
+<!--     <input type="submit"  value="Login"  class="btn btn-warning"/>
+ -->    
+ 
+   <button   type="submit" value="Submit" class="btn btn-primary">
+<i class="fas fa-sign-in-alt"></i>
+
+
+   Login
+   </button>
+    
+    
+    
+    
    </div>
     			
  <a href="sign-up" > Sign up</a>
        	 </div>
        	
-       	 	 </div>
+       	 	 </div><hr>
 	</form>  
+	         <footer id="footerSm" th:replace="fragments/header ::  footerSm">
+       
+        </footer>
    </body>
+     <script>
+  document.getElementById("logout").style.display="none";
+
+  </script>
 </html>

@@ -82,14 +82,14 @@ public class ResourceController {
 
 
 
-	@GetMapping("/user")
-	public String user(ModelMap model) {
-		System.out.println("----" + getLoggedInUserName());
+	@GetMapping("/about")
+	public String about(ModelMap model) {
+		//System.out.println("----" + getLoggedInUserName());
 		model.put("username", getLoggedInUserName());
 		model.put("name", getLoggedInUserName());
 		String name = (String) model.get("name");
-		System.out.println("VALUE in SESSION is" + name);
-		return "user";
+		//System.out.println("VALUE in SESSION is" + name);
+		return "about";
 	}
 
 	@GetMapping("/admin")

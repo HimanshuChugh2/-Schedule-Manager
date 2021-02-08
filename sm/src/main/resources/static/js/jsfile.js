@@ -11,8 +11,6 @@ for(var i=0;i<arrayLength;i++)
 {
 
 totalSum+= chartJsonArray[i].value;
- 
-
 }
 
 	perc=perc/totalSum*100
@@ -31,29 +29,75 @@ for(var i=0;i<arrayLength;i++)
 	
 	}
 
-new Chart(document.getElementById("MyPieChart"), {
-    type: 'doughnut',
+	
+	
+	var ctx = document.getElementById("MyPieChart").getContext("2d");
+    var myChart = new Chart(ctx, {
+    	type: 'pie',
+        
+        // The data for our dataset
+        data: {
+            labels: labeldata,
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: ["#F57F17", "#F9A825", "#FBC02D" ,"#FDD835","#FFEB3B","#FFEE58", "#FFF176", "#FFF59D" ,"#FFF9C4","#FFFDE7","#FFE082", "#FFD54F", "#FFCA28" ,"#FFC107","#FFB300"],
+                data: numericdata
+            }]
+        },
+        
+        // Configuration options go here
+        options: {
+        	 
+        	display:true,
+        	text:'Time Used In A Day Chart (Shown in %)',
+        	responsive: true,
+        	maintainAspectRatio:false,
+  
+          	 
+        }
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/*var chart=new Chart(document.getElementById("MyPieChart"), {
+    type: 'pie',
     
     // The data for our dataset
     data: {
         labels: labeldata,
         datasets: [{
             label: 'My First dataset',
-            backgroundColor: ["#003F5C", "#58508D", "#BC5090" ,"#FF6361","#FFA600","#003F5C", "#58508D", "#BC5090" ,"#FF6361","#FFA600","#003F5C", "#58508D", "#BC5090" ,"#FF6361","#FFA600"],
+            backgroundColor: ["#F57F17", "#F9A825", "#FBC02D" ,"#FDD835","#FFEB3B","#FFEE58", "#FFF176", "#FFF59D" ,"#FFF9C4","#FFFDE7","#FFE082", "#FFD54F", "#FFCA28" ,"#FFC107","#FFB300"],
             data: numericdata
         }]
     },
     
     // Configuration options go here
     options: {
-    	title: {
+    	 
     	display:true,
     	text:'Time Used In A Day Chart (Shown in %)',
-      	}
+    	responsive: true,
+      	
+      	 
     }	
-});
+});*/
  
-
+ 
 function decodehtml(html)
 {
 	 
@@ -61,3 +105,6 @@ function decodehtml(html)
 	 txt.innerHTML=html;
 	 return txt.value;
 }
+
+
+

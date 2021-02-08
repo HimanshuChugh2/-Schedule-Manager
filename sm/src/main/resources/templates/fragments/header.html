@@ -17,37 +17,56 @@
   
 <!--   <body > -->
   
-  <div th:fragment="header">
+  <div th:fragment="header" xmlns:th="http://www.thymeleaf.org">
   
+  
+   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
    <form th:action="@{/logout}" method="post">
  	  
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">We are SM</a>
+<nav class="navbar navbar-expand-lg navbar-dark p-2 m-2">
+  <a class="navbar-brand mb-0 h1" href="/about">
+  <i class="far fa-calendar-check" style="color:white"></i>
+  SM
+</a>
+  
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="user">User<span class="sr-only">(current)</span></a>
+      <li class="nav-item">
+        <a class="nav-link" href="about">
+        <i class="fab fa-superpowers"></i>
+About  
+        
+        </a>
+      </li>
+ 
+     <!--  <li class="nav-item">
+        <a class="nav-link" href="sign-up">
+        <i class="fas fa-user-plus"></i>
+
+        
+        Sign up</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="admin">Admin</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="sign-up">Sign up</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="login">Login</a>
-      </li>
+        <a class="nav-link" href="login">
+        <i class="fas fa-sign-in-alt"></i>
+
+        
+        Login</a>
+      </li> -->
       
       <li class="nav-item">
-        <a class="nav-link" href="create-schedule">Create Schedule</a>
+        <a class="nav-link" href="create-schedule">
+        <i class="far fa-calendar-plus"></i>        
+        Create Schedule
+        </a>
       </li>
     </ul>
     <span class="navbar-text">
      
-   <input type="submit" th:href="@{/logout}"class="btn btn-secondary" value="Logout"/>  
+   <input id="logout" type="submit" th:href="@{/logout}"class="btn btn-outline-light my-2 my-sm-0" value="Logout"/>  
     
     </span>
   </div>
@@ -59,11 +78,10 @@
   
   
   
-  <div th:fragment="headHeader">
+  <head th:fragment="headHeader" xmlns:th="http://www.thymeleaf.org">
   
     <!-- Required meta tags -->
      
-      <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -84,14 +102,66 @@
   
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
-  </head>
-  </div>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+  
+  <link rel="icon" style="color:white" href="images/Capture.JPG" >
+   
+   </head>
+  
+  
+   
   
   
   
-  
-  
+   
+   <html th:fragment="footerSm" xmlns:th="http://www.thymeleaf.org">
+  <footer class="section footer-classic context-dark bg-image" >
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="pr-xl-4">
+              <br>
+              <h5> Schedule Maker。</h5>
+ 
+                
+                <p class="rights"><span> ©  </span><span class="copyright-year">2021</span><span> </span><span>Schedule Maker</span><span>. </span><span>All Rights Reserved.</span></p>
+              </div>
+            </div>
+            <div class="col-md-4">
+            <br>
+              <h5>Contacts</h5>
+ 
+              <span class="contact-list">
+              <i class="far fa-envelope"></i>
+                <span>email:
+               <span>korenaniofficial@gmail.com</span>
+              </span>
+              </span>
+ 
+          </div>
+          
+          
+            <div class="col-md-4">
+               <br>
+            <i class="fas fa-code"></i>
+
+        
+                    	<h5 style="display:inline">Developed by</h5> <mark> <a href="https://www.linkedin.com/in/himanshu-chugh-%E3%83%92%E3%83%9E%E3%83%B3%E3%82%B7%E3%83%A5-4b873212b/">
+                    	<i class="fab fa-linkedin"></i>
+
+                    	
+                    	Himanshu Chugh</a></mark>
+        
+        </div>
+ 
+        </div>
+        <br>
+      
+ </div>
+       </footer>
+
+ </html>
+ 
   
   
   

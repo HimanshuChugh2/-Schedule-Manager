@@ -21,22 +21,24 @@
  <!-- header till here -->
  
 <body class="outerdiv">
-
+    <div th:insert="fragments/header :: header">
+      </div>
+      
  <!-- 
     <div th:replace="fragments/header :: header">
 </div> -->
  
  <form action="#" th:action="@{/sign-up}" method="post" th:object="${signUpUser}">
-<div class="container p-5">
+<div class="container">
 
  
- <h4 th:if="${message}" class="alert alert-success" th:text="${message}"></h4> 
+ <h4 th:if="${message}" class="alert alert-primary" th:text="${message}"></h4> 
  
- <h2>
+ <h2 class="center innerdiv" style="padding-bottom:10px; padding-left:0">
  Sign up here
  </h2>
  
- <div class="border border-white shadow-lg mb-5 bg-white p-5 rounded innerdiv"> 
+ <div class="border border-white shadow-lg bg-white rounded innerdiv center"> 
       
     <div class="form-group">
     <label  for="fullname" >Full Name:</label> 
@@ -55,7 +57,11 @@
    <input th:field="*{password}" class="form-control form-control-sm" type="Password" placeholder="password"  name="password">			
    <div class="alert alert-danger"  th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
   <br>
-   <input   type="submit" value="Submit" class="btn btn-success">
+   <button   type="submit" value="Submit" class="btn btn-primary">
+   <i class="fas fa-user-plus"></i>
+
+   Sign up
+   </button>
       
   	
    </div>
@@ -65,7 +71,13 @@
   
    </div>
    </form>
-
-
+<hr>
+         <footer id="footerSm" th:replace="fragments/header ::  footerSm">
+       
+        </footer>
   </body>
+  <script>
+  document.getElementById("logout").style.display="none";
+
+  </script>
 </html>

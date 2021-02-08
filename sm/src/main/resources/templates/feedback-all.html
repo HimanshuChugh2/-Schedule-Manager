@@ -1,0 +1,67 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">  
+<head>
+<title>
+Feedback
+</title>
+  <head th:replace="fragments/header :: headHeader">
+</head>
+
+
+<body class="outerdiv">
+
+ <div th:replace="fragments/header :: header">
+  </div>
+ <!--  <form th:action="@{/logout}" method="POST">
+         <input type="submit" value="Logout"/>
+          <a href="/logout" >Logout</a> 
+    </form> -->
+ <div class="container" style="height=:100%">
+
+  
+  
+  
+  
+  
+   <div th:each="fbvar : ${ownfeedback}">
+  <h5>Your Feedback</h5>
+  <div class="shadow-lg mb-5 bg-dark p-5 rounded innerdiv"> 
+  <label style="color:white"  th:text="${fbvar.comment}"></label><br>
+  
+  <span style="color:white" > Rating</span> <input   type="range" min=0 max=10 disabled  value="" th:value="${fbvar.stars}" style="color:white" th:text="${fbvar.stars}"/><span style="color:white" th:text="${fbvar.stars}"></span>
+  <hr>
+<i class="far fa-user" style="color:white"></i>
+
+  <B style="color:white">You</B>
+ <a href="feedback" class="btn btn-link">Edit</a>
+  </div>
+  </div>
+   
+ 
+  
+   
+  
+  <hr>
+  
+   <h5  th:if="${fbList}">Here's what our users have to say about us !</h5>
+   <div th:each="fbvar : ${fbList}">
+  
+  <div class="shadow-lg mb-5 bg-light p-5 rounded innerdiv"> 
+  <label   th:text="${fbvar.comment}"></label><br>
+  
+  <span> Rating</span> <input   type="range" min=0 max=10 disabled  value="" th:value="${fbvar.stars}" style="color:white" th:text="${fbvar.stars}"/>
+  <hr>
+<i class="far fa-user"></i>
+
+  <label   th:text="${fbvar.username}"></label>
+ 
+  </div>
+  </div>
+  <hr>
+         <footer id="footerSm" th:replace="fragments/header ::  footerSm">
+       
+        </footer>
+  </div>
+    
+<!--     <div th:insert="fragments/footer :: footer"></div>
+ --></body>
+</html>

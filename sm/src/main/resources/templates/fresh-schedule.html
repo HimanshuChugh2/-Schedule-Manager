@@ -1,11 +1,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments/header :: headHeader">
-<title>Hello, world!</title>
 </head> 
 
 
+<title>Your Schedule is Ready!</title>
 
 <body class="outerdiv">
+
  <div th:insert="fragments/header :: header">
  </div>
       <div class="container" style="height=:100%">
@@ -18,24 +19,30 @@
 <!-- <h2 th:text="${tifaTwo.goal}"></h2>   <br/> -->
 
 
-<table class="table table-bordered table-dark">
+<table class="table table-bordered table-dark table-hover">
+  <tbody>
+
 <tr th:each="datavar,iterstat : ${data}" th:style="${iterstat.odd}? 'font-weight: bold;'">
-		
-     <td th:text="${datavar}" th:id="|td${iterstat.index}|"> </td>
+	  <th scope="row" th:text="${iterstat.index}">1</th>
+	 	
+	 	
+     <td th:text="${datavar}" th:id="|td${iterstat.index}|" scope="col"> </td>
  
 	
-       
-
 </tr>
+</tbody>
 </table>
-<div>
-
-<canvas id="MyPieChart" style=" height:150, width:150">
-
-</canvas>
-
+ 	
+ 	
+     
+    <div class="chart-container" style="position: relative; height:70vh; width:90vw">
+   <canvas id="MyPieChart"></canvas>
 </div>
+    
+    <br>
 
+
+  
 
 
 
@@ -60,7 +67,7 @@
 
  
 <tr><td>Start getting ready for sleep: <td  th:text="${gettingReadyForSleep}">    </td></tr>
-<tr><td>TURN THE SLEEP MODE ON: </td> <td th:text="${goToSleep}">  </tr>
+<tr><td>Go to sleep: </td> <td th:text="${goToSleep}">  </tr>
 <tr><td>Good Morning: </td> <td th:text="${wakeUpFromSleep}">  </tr>
 
 </table>
@@ -68,11 +75,38 @@
 <!--  th:value="${tifaTwo.commuteTime}" th:field="${tifaTwo.commuteTime}" -->
 
 </form>
+<div style="max-width:220px; max-height:200px;" class="m-auto">
 
+    <button onclick="printRoutine()" class="noPrint btn btn-secondary">
+    <i class="fas fa-download"></i>
+    &nbsp;
+
+    Download your routine
+</button>
 </div>
-<div class=" bg-dark rounded footer">
-<span style="color:white"> How did we do ? <a href="feedback"> Click here to rate us </a> </span>
-</div>
+
+
+<div style="max-width:290px; max-height:200px;" class="m-auto">
+
+
+ <br>
+  <a style="color:black;" href="feedback"   >
+	How did we do ?&nbsp;&nbsp;
+	<i class="fas fa-mouse-pointer"></i>
+	
+ 	Click here to rate us </a>
+ 
+ </div> 
+ </div>
+ 
+  
+
+<hr>
+         <footer id="footerSm" th:replace="fragments/header ::  footerSm">
+       
+        </footer>
+
+
 <!--   <div th:insert="fragments/footer :: footer"></div>
  --><script>
 var chartDatafresh	="[[${convertedJson}]]"
@@ -82,6 +116,22 @@ var chartDatafresh	="[[${convertedJson}]]"
 
 <script type="text/javascript" th:src="@{js/jsfile.js}"></script>	
 
+ <script>
+ 
+ 
+ function printRoutine()
+ {
+	 
+	 window.print();
+ 	 
+ }
+ 
+ </script>
+
+
 </body>
+
+
+
 
 </html>

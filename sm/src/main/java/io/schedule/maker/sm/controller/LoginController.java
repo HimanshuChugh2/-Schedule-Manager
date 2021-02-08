@@ -33,7 +33,7 @@ public class LoginController {
 	public String loginPost(@RequestParam String username, ModelMap model) {
 		model.put("name", username);
 		model.put("username", (String) model.get("name"));
-		return "user";
+		return "about";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -46,7 +46,7 @@ public class LoginController {
 		if (name == null) {
 			model.put("logoutmessage", "You have been logged out");
 		}
-		System.out.println("VALUE in SESSION is login " + name);
+		//System.out.println("VALUE in SESSION is login " + name);
 		return "login";
 	}
 

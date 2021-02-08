@@ -17,30 +17,20 @@ public interface RepositoryTimeFactors extends JpaRepository<TimeFactors,Integer
 
 	 
 	// we can make the old table which contains only entity item, a table which holds the details of the usernames who currently have any schedule made in the database
-	@Modifying		// THIS IS IMPORTANT FOR INSERT QUERY
-	@Transactional  // THIS IS IMPORTANT FOR INSERT QUERY
-	@Query(
-	  value = 
-	    "insert into newofflinetable (label,value, username) values (:label, :value, :username)",
-	  nativeQuery = true)
-	void insertUser(@Param("label") String label, @Param("value") Long value, 
-	  @Param("username") String username);
+	/*
+	 * @Modifying // THIS IS IMPORTANT FOR INSERT QUERY
+	 * 
+	 * @Transactional // THIS IS IMPORTANT FOR INSERT QUERY
+	 * 
+	 * @Query( value =
+	 * "insert into newofflinetable values :label, :value, :username", nativeQuery =
+	 * true) void insertUser(@Param("label") String label, @Param("value") Long
+	 * value,
+	 * 
+	 * @Param("username") String username);
+	 */
 	
 	
 	
-	// for inserting the above, we must delete the previous schedule details of this person
-	@Modifying		// THIS IS IMPORTANT FOR INSERT QUERY
-	@Transactional  // THIS IS IMPORTANT FOR INSERT QUERY
-	@Query(value = "delete from newofflinetable where username = :username", nativeQuery = true)
-	void deleteUser (@Param("username") String username);
-	// this is a select statement, it will return something, so we have to store the returned value into something, so now for this we dont have an entity to store the values, we will create an interface with the field value being same as defined in the query
-	@Query(value="select label as label, value as value,username as username from newofflinetable where username= :username", nativeQuery = true)
-	public List<TimeFactorLabelValueInterface> getLabelAndValueByUsername(@Param("username") String username);	
 	
-	
-	@Query(value="select * from newofflinetable", nativeQuery = true)
-	public List<TimeFactorLabelValueInterface> getAllLabelAndValue();	
-	 
-	@Query(value="select * from newofflinetable where username = :username", nativeQuery = true)
-	public List<TimeFactorLabelValueInterface> getByUsername(@Param("username") String username );	
 }

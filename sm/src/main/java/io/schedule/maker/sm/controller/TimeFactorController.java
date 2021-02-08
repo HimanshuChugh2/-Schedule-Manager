@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.schedule.maker.sm.Repository.JpaNewOfflineTableRepo;
 import io.schedule.maker.sm.Repository.RepositoryTimeFactors;
 import io.schedule.maker.sm.Repository.TimeFactorLabelValueInterface;
 import io.schedule.maker.sm.model.TimeFactors;
+import io.schedule.maker.sm.model.newofflinetable;
 
 @Controller
 public class TimeFactorController {
@@ -35,6 +37,9 @@ public class TimeFactorController {
 	
 	@Autowired
 	RepositoryTimeFactors object;
+	
+	@Autowired
+	JpaNewOfflineTableRepo jpanewOfflineTableRepo;
 	private String getLoggedInUserName() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // getting the
 																									// principal
@@ -74,10 +79,10 @@ public class TimeFactorController {
  		
  		
  		// lunchtime ka error thik hone wala hai
- 		System.out.println(tifa.getWorkingHoursFrom() +" "+ tifa.getWorkingHoursTo());
+ 		//System.out.println(tifa.getWorkingHoursFrom() +" "+ tifa.getWorkingHoursTo());
  		
  		
-  		System.out.println("gettin in save");
+  		//System.out.println("gettin in save");
  		//MAKE A CHART SHOWING HOW MUCH TIME HE IS SPENDING ON WHAT
 	
 // 			object.save(tifa);
@@ -96,17 +101,17 @@ public class TimeFactorController {
  			long sleepTime= Long.parseLong(tifa.getSleepTime());
  			long dinnerTime=60; //only for non-workers
  			long lunchTime=60;  //only for non-workers
- 			long restTimeAfterWork=20; //only for workers
+ 			long restTimeAfterWork=30; //only for workers
   			TimeFactors tifaTwo=new TimeFactors();
  	 		LocalTime totalTimeBeingUsed= LocalTime.parse("00:00");
  			
- 			System.out.println("W O R Ki n G H OURS "+tifa.getWorkingHoursFrom());
+ 			//System.out.println("W O R Ki n G H OURS "+tifa.getWorkingHoursFrom());
  	 		LocalTime workingHoursFrom = LocalTime.parse(tifa.getWorkingHoursFrom());
  	 		LocalTime workingHoursTo = LocalTime.parse(tifa.getWorkingHoursTo());
  	 		LocalTime timeRn;
  	 		
  	 		Duration workHours=Duration.between(workingHoursFrom,workingHoursTo);
- 	 		System.out.println("D I F F E R E N C E BETWEEN TO AND FROM IS " +		workHours.toMinutes());
+ 	 		//System.out.println("D I F F E R E N C E BETWEEN TO AND FROM IS " +		workHours.toMinutes());
  	 		
  	 		
  	 		
@@ -128,51 +133,77 @@ public class TimeFactorController {
  	  	 		restTime=goaltime*20/100;
  	  	 		goaltime=goaltime-restTime;
  	  	 		long halfOfGoaltime=goaltime*70/100;
-  	 	 		data.add(LocalTime.parse("00:00").plusMinutes(goaltime)+"  Total time for your Goal ");
+  	 	 		data.add(LocalTime.parse("00:00").plusMinutes(goaltime)+"  hours is the total time that you can spend on your goal ");
   	 			
  	 			long totalMinutesUsedInADay=gettingReady+workHours.toMinutes()+commuteTime*2+workoutTime+mealTime+phoneTime+gettingReadyForSleep+sleepTime+restTimeAfterWork+goaltime+restTime;
- 	 	 		 System.out.println(" M I N U T E S "+ totalMinutesUsedInADay);
+ 	 	 		 //System.out.println(" M I N U T E S "+ totalMinutesUsedInADay);
  	 	 		
  		 		  if(totalMinutesUsedInADay>1439) {
  		 		  
  
  		 			  model.addAttribute(
- 		 		  "timeOverflowError","Error info: Time overflow Error: The time you are spending in a day is more than 24 Hours, please select less time from what you have already selected in the dropdown list and please try again"
+ 		 		  "timeOverflowError","Time overflow Error: The time you are spending in a day is more than 24 Hours, please select less time from what you have already selected in the dropdown list and please try again"
  				  );
  				  
  				  return "create-schedule";
  				  }
  				 
  	 	 		
- 		 		List<TimeFactorLabelValueInterface> timeFactorLabelValueInterface= object.getLabelAndValueByUsername(username);
+ 		 		List<TimeFactorLabelValueInterface> timeFactorLabelValueInterface= jpanewOfflineTableRepo.getLabelAndValueByUsername(username);
  	 	 		
  	 			if(timeFactorLabelValueInterface!=null)
  	 			{
  	 				//if user schedule already exist, delete it
- 	 				System.out.println("User schedule already exist");
- 	 				object.deleteUser(username);
+ 	 				//System.out.println("User schedule already exist");
+ 	 				jpanewOfflineTableRepo.deleteUser(username);
  	 			}
- 	 			object.insertUser(" Wake up, its time", gettingReady, username);
-  		 		object.insertUser("  Start working out ", workoutTime, username);
-  		 		object.insertUser("   Have meal ", mealTime, username); 
-  		 		object.insertUser("  Time you work on your goal ", goaltime, username);
-		 		object.insertUser("  Rest time in a day ", restTime, username);
-  		 		object.insertUser("   Have dinner ", dinnerTime, username);  
- 		 		object.insertUser("  Use phone ", phoneTime, username);  
- 		 		object.insertUser("  Start getting ready for sleep ", gettingReadyForSleep, username);
- 		 		object.insertUser(" Turn the sleep mode ON ", sleepTime, username);  
- 	 			data.add(timeRn.toString()+"  Wake up, its time, get ready till "+timeRn.plusMinutes(gettingReady));	
+ 	 			;
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable(" Wake up", String.valueOf(gettingReady), username)); 
+ 	 			//object.insertUser(" Wake up", gettingReady, username);
+ 	 			if(workoutTime!=0)
+ 	 			{
+ 	 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Start working out ", String.valueOf(workoutTime), username)); 
+
+ 	  		 		//object.insertUser("  Start working out ", workoutTime, username);
+ 	 			}
+ 	 			
+ 	 			
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Have meal ", String.valueOf(mealTime), username)); 
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Time you work on your goal ", String.valueOf(goaltime), username)); 
+
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Rest time in a day ", String.valueOf(restTime), username)); 
+
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Have dinner  ", String.valueOf(dinnerTime), username)); 
+
+ 	 			
+  		 		//object.insertUser("  Have meal ", mealTime, username); 
+  		 		//object.insertUser("  Time you work on your goal ", goaltime, username);
+		 		//object.insertUser("  Rest time in a day ", restTime, username);
+  		 		//object.insertUser("  Have dinner ", dinnerTime, username);  
+  		 		
+  		 		if(phoneTime!=0)
+  		 		{
+  	 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Use phone  ", String.valueOf(phoneTime), username)); 
+
+  	 		 		//object.insertUser("  Use phone ", phoneTime, username);  
+  		 		}
+	 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Getting ready for sleep ", String.valueOf(gettingReadyForSleep), username)); 
+  	 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Sleep time ", String.valueOf(sleepTime), username)); 
+
+ 		 		//object.insertUser("  Getting ready for sleep ", gettingReadyForSleep, username);
+ 		 		//object.insertUser(" Sleep time ", sleepTime, username);  
+ 	 			data.add(timeRn.toString()+" |  Wake up. Get ready till "+timeRn.plusMinutes(gettingReady));	
  	 			
  	 			
   	 			timeRn=timeRn.plusMinutes(gettingReady);
  	 			//checks if user works out or not
  	 			if(workoutTime!=0)
  	 			{
- 	 		    data.add(timeRn.toString()+"  Start working out ");
+ 	 		    data.add(timeRn.toString()+" |  Start working out ");
  	  		    timeRn=timeRn.plusMinutes(workoutTime);
  	 			}
 	  		    
-	  		    data.add(timeRn.toString()+"  Have meal ");
+	  		    data.add(timeRn.toString()+" |  Have meal ");
 		 		timeRn=timeRn.plusMinutes(mealTime);
  	 			
 		 		
@@ -183,31 +214,31 @@ public class TimeFactorController {
 		  	 		{
 		  	 			if(goaltime<=halfOfGoaltime && lunchTime!=0)
 		  	 			{
-		  	 			data.add(timeRn.toString()+" Have lunch till "+timeRn.plusMinutes(lunchTime));
+		  	 			data.add(timeRn.toString()+" |  Have lunch till "+timeRn.plusMinutes(lunchTime));
 		  	 			timeRn=timeRn.plusMinutes(lunchTime);
 		  	 			lunchTime=0;
 		  	 			}
 		  	 			else
 		  	 			{
-		  	 			data.add(timeRn.toString()+" Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(30));
+		  	 			data.add(timeRn.toString()+" |  Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(30));
 		  	 			timeRn=timeRn.plusMinutes(30);
 		  	 			restTime=restTime-30;
 		  	 			
-		  	 			data.add(timeRn.toString()+" Get to Working on your goal: "+tifa.getGoal().toString());
+		  	 			data.add(timeRn.toString()+" |  Work on your goal: "+tifa.getGoal().toString());
 	  	 			timeRn=timeRn.plusMinutes(120);
 	  	 			goaltime=goaltime-120;
 	  	 			
 		  	 			}
-		  	 		}
+		  	 		}	
 		  	 		else
 		  	 		{
-		  	 			data.add(timeRn.toString()+" Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTime));
+		  	 			data.add(timeRn.toString()+" |  Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTime));
 			 			timeRn=timeRn.plusMinutes(restTime);
 			 			restTime=restTime-restTime;
 		  	 			
 			 			
 		  	 			
-		  	 		data.add(timeRn.toString()+" Get to Working on your goal: "+tifa.getGoal().toString()+", till "+timeRn.plusMinutes(goaltime));
+		  	 		data.add(timeRn.toString()+" |  Work on your goal: "+tifa.getGoal().toString()+", till "+timeRn.plusMinutes(goaltime));
 	 	  	 		timeRn=timeRn.plusMinutes(goaltime); 
 	 	  	 	goaltime=goaltime-goaltime;
 	 	  	 	
@@ -219,9 +250,9 @@ public class TimeFactorController {
 	  	 		if(goaltime>0 && restTime>0) 
 	  	 		{ 
 	  	 			
-	  	 			data.add(timeRn.toString()+" Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTime));
+	  	 			data.add(timeRn.toString()+" |  Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTime));
 	  	 			timeRn=timeRn.plusMinutes(restTime);
-	  	 		data.add(timeRn.toString()+" Get back to Working on your goal: "+tifa.getGoal().toString());
+	  	 		data.add(timeRn.toString()+" |  Work on your goal:  "+tifa.getGoal().toString());
 	  	 			timeRn=timeRn.plusMinutes(goaltime);
 	  	 		
 	  	 		}
@@ -230,7 +261,7 @@ public class TimeFactorController {
 	  	 		
 	  	 			
 	  	 		
-	  	 		data.add(timeRn.toString()+"  Have dinner");
+	  	 		data.add(timeRn.toString()+" |  Have dinner");
  		 		
 
 		        timeRn=timeRn.plusMinutes(dinnerTime);
@@ -238,15 +269,15 @@ public class TimeFactorController {
 	  	 		
 		        if(phoneTime!=0)
 		        {
-	 	 		data.add(timeRn.toString()+"  Use phone ");
+	 	 		data.add(timeRn.toString()+" |  Use phone ");
 	            timeRn=timeRn.plusMinutes(phoneTime);
 		        }	            	
 	            
 	            
-	            data.add(timeRn.toString()+" Start getting ready for sleep");
+	            data.add(timeRn.toString()+" |  Start getting ready for sleep");
 	 	 		timeRn=timeRn.plusMinutes(gettingReadyForSleep);
 	 		    
-	 		    data.add(timeRn.toString()+"  Turn the sleep mode ON ");
+	 		    data.add(timeRn.toString()+" |  Go to sleep ");
 
 	 		    
 	 		  //  makeChart(timeFactorLabelValueInterface, username);
@@ -291,7 +322,7 @@ public class TimeFactorController {
  	 	 		//restTime will be 20% of the goaltime goaltime=150; resttime=150- *20/100=30; goalTime=150-30;
  	  	 		restTime=goaltime*20/100;
  	  	 		goaltime=goaltime-restTime;
-   	 	 		data.add(LocalTime.parse("00:00").plusMinutes(goaltime)+" hrs is total time in a normal working day that you can spend on your Goal ");
+   	 	 		data.add(LocalTime.parse("00:00").plusMinutes(goaltime)+" hours is the total time in a usual working day that you can spend on your Goal ");
   	 			
   	 	 		
   	 	 		
@@ -309,33 +340,61 @@ public class TimeFactorController {
  		 		  
  
  		 			  model.addAttribute(
- 		 		  "timeOverflowError","Error info: Time overflow Error: The time you are spending in a day is more than 24 Hours, please select less time from what you have already selected in the dropdown list and please try again"
+ 		 		  "timeOverflowError","Time overflow Error: The time you are spending in a day is more than 24 Hours, please select less time from what you have already selected in the dropdown list and please try again"
  				  );
  				  
  				  return "create-schedule";
  				  }
  				 
  	 	 		
- 		 		List<TimeFactorLabelValueInterface> timeFactorLabelValueInterface= object.getLabelAndValueByUsername(username);
+ 		 		List<TimeFactorLabelValueInterface> timeFactorLabelValueInterface= jpanewOfflineTableRepo.getLabelAndValueByUsername(username);
  	 	 		
  	 			if(timeFactorLabelValueInterface!=null)
  	 			{
  	 				//if user schedule already exist, delete it
- 	 				System.out.println("User schedule already exist");
- 	 				object.deleteUser(username);
+ 	 			//	System.out.println("User schedule already exist");
+ 	 				jpanewOfflineTableRepo.deleteUser(username);
  	 			}
  	 			 
 
- 	 			
- 	 			object.insertUser(" Wake up, its time.", gettingReady, username);
- 		 		object.insertUser(" Start working out ", workoutTime, username);
- 		 		object.insertUser(" Have meal ", mealTime, username); 
- 	 	 		object.insertUser(" Time you work on your goal ", goaltime, username);
-  		 		object.insertUser(" Use phone ", phoneTime, username);  
-  		 		object.insertUser(" Commute from home", commuteTime, username);
-  		 		object.insertUser(" Working hours", workHours.toMinutes(), username);
-  		 		object.insertUser(" Start getting ready for sleep ", gettingReadyForSleep, username);
-  		 		object.insertUser(" Turn the sleep mode ON ", sleepTime, username);  
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable(" Wake up.", String.valueOf(gettingReady), username)); 
+
+ 	 			//object.insertUser(" Wake up.", gettingReady, username);
+ 		 		if(workoutTime!=0)
+ 		 		{
+	 	 			jpanewOfflineTableRepo.save(new newofflinetable(" Start working out ", String.valueOf(workoutTime), username)); 
+
+ 	 			//object.insertUser(" Start working out ", workoutTime, username);
+ 		 		}
+ 		 		
+ 		 		
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable(" Have meal ", String.valueOf(mealTime), username)); 
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Time you work on your goal  ", String.valueOf(goaltime), username)); 
+
+ 		 		//object.insertUser(" Have meal ", mealTime, username); 
+ 	 	 		//object.insertUser(" Time you work on your goal ", goaltime, username);
+ 	 	 		if(phoneTime!=0)
+ 	 	 		{
+	 	 		jpanewOfflineTableRepo.save(new newofflinetable("  Use phone  ", String.valueOf(phoneTime ), username)); 
+
+  		 		//object.insertUser(" Use phone ", phoneTime, username);
+ 	 	 		}
+  		 		
+  		 		if(commuteTime!=0)
+  		 		{
+	 	 			jpanewOfflineTableRepo.save(new newofflinetable(" Commute from home  ", String.valueOf(commuteTime), username)); 
+
+  		 		//object.insertUser(" Commute from home", commuteTime, username);
+  		 		}
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable(" Working hours ", String.valueOf(workHours.toMinutes()), username)); 
+
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable(" Getting ready for sleep ", String.valueOf(gettingReadyForSleep), username)); 
+
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Sleep time ", String.valueOf(sleepTime), username)); 
+
+  		 		//object.insertUser(" Working hours", workHours.toMinutes(), username);
+  		 		//object.insertUser(" Start getting ready for sleep ", gettingReadyForSleep, username);
+  		 		//object.insertUser(" Sleep time ", sleepTime, username);  
 
    	 	 		
    	 	 		
@@ -345,7 +404,7 @@ public class TimeFactorController {
  	 			
  	 			
  	 			
- 	 			System.out.println(" I S A F T E R");
+ 	 			//System.out.println(" I S A F T E R");
  	 			
  	 			
  	 			timeRn=workingHoursTo;
@@ -356,7 +415,7 @@ public class TimeFactorController {
 	            if(commuteTime!=0)
 	            {
 	            tifaTwo.setCommuteTime(timeRn.toString()); 
- 	 	 		data.add(timeRn.toString()+", Start commuting from ");
+ 	 	 		data.add(timeRn.toString()+" |  Start commuting ");
   	 		    timeRn=timeRn.plusMinutes(commuteTime);
 	            }
   	 		    
@@ -367,48 +426,46 @@ public class TimeFactorController {
   	 		    	
   	 		    	if(workoutTime!=0)
   	 	 			{
-  	 		    	data.add(timeRn.toString()+", Start working out ");
+  	 		    	data.add(timeRn.toString()+" |  Start working out ");
   		  		    timeRn=timeRn.plusMinutes(workoutTime);
   	 	 			}
   		  		    
-  		  		    data.add(timeRn.toString()+", Have meal ");
+  		  		    data.add(timeRn.toString()+" |  Have meal ");
   			 		timeRn=timeRn.plusMinutes(mealTime);
   	 		    	
-  			 	    data.add(timeRn.toString()+", Start getting ready for sleep ");
+  			 	    data.add(timeRn.toString()+" |  Start getting ready for sleep ");
     	 	 		timeRn=timeRn.plusMinutes(gettingReadyForSleep);
     	 	 		
     	 	 		
-   	 	 		    data.add(timeRn.toString()+", Turn the sleep mode ON ");
+   	 	 		    data.add(timeRn.toString()+" |  Go to sleep ");
    	 	  		    timeRn=timeRn.plusMinutes(sleepTime);
    	 	  		    
    	 		    
-   	 	 		    data.add(timeRn.toString()+", Wake up, its time. Get ready till "+timeRn.plusMinutes(gettingReady));
+   	 	 		    data.add(timeRn.toString()+" |  Wake up. Get ready till "+timeRn.plusMinutes(gettingReady));
    	 	 		    timeRn=timeRn.plusMinutes(gettingReady);
-   	 		     
-   	 		    
-
+ 
   	 		    }
   	 		    
   	 		    else {
  	 	 		System.out.println();
-  	 		    data.add(timeRn.toString()+", Start getting ready for sleep ");
+  	 		    data.add(timeRn.toString()+" |  Start getting ready for sleep ");
   	 	 		timeRn=timeRn.plusMinutes(gettingReadyForSleep);
  	 		    
- 	 	 		data.add(timeRn.toString()+", Turn the sleep mode ON ");
+ 	 	 		data.add(timeRn.toString()+" |  Go to sleep ");
  	  		    timeRn=timeRn.plusMinutes(sleepTime);
  	  		    
  	 		    
- 	 		    data.add(timeRn.toString()+", Wake up, its time. Get ready till "+timeRn.plusMinutes(gettingReady));
+ 	 		    data.add(timeRn.toString()+" |  Wake up. Get ready till "+timeRn.plusMinutes(gettingReady));
  	 	 		timeRn=timeRn.plusMinutes(gettingReady);
  	 	 		
  	 	 		
 	 	 	//	model.addAttribute("gettingReady","The Morning's here, start getting ready"+timeRn);
 
- 	 		    data.add(timeRn.toString()+", Start working out ");
+ 	 		    data.add(timeRn.toString()+" |  Workout ");
 	  		    timeRn=timeRn.plusMinutes(workoutTime);	
 	  		    
 	  		    
-	  		    data.add(timeRn.toString()+", Have meal ");
+	  		    data.add(timeRn.toString()+" |  Have meal ");
 		 		timeRn=timeRn.plusMinutes(mealTime);
 		 		
   	 		    }
@@ -424,11 +481,11 @@ public class TimeFactorController {
 	  	 		{ 	
 		  	 		if(goaltime-120>=60)
 		  	 		{
-		  	 			data.add(timeRn.toString()+", Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(30));
+		  	 			data.add(timeRn.toString()+" |  Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(30));
 		  	 			timeRn=timeRn.plusMinutes(30);
 		  	 			restTime=restTime-30;
 		  	 			
-		  	 			data.add(timeRn.toString()+", Get back to Working on your goal: "+tifa.getGoal().toString());
+		  	 			data.add(timeRn.toString()+" |  Work on your goal:  "+tifa.getGoal().toString());
 	  	 			timeRn=timeRn.plusMinutes(120);
 	  	 			goaltime=goaltime-120;
 	  	 			
@@ -436,12 +493,12 @@ public class TimeFactorController {
 		  	 		}
 		  	 		else
 		  	 		{
-		  	 			data.add(timeRn.toString()+" Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTime));
+		  	 			data.add(timeRn.toString()+" |  Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTime));
 			 			timeRn=timeRn.plusMinutes(restTime);
 			 			restTime=restTime-restTime;
 		  	 			
 		  	 			
-		  	 		data.add(timeRn.toString()+" Get back to Working on your goal: "+tifa.getGoal().toString()+", till "+timeRn.plusMinutes(goaltime));
+		  	 		data.add(timeRn.toString()+" |  Work on your goal:  "+tifa.getGoal().toString()+", till "+timeRn.plusMinutes(goaltime));
 	 	  	 		timeRn=timeRn.plusMinutes(goaltime); 
 	 	  	 	goaltime=goaltime-goaltime;
 	 	  	 	
@@ -452,31 +509,31 @@ public class TimeFactorController {
 	  	 		
 	  	 		if(goaltime>0 && restTime>0) 
 	  	 		{ 
-	  	 		data.add(timeRn.toString()+", Get back to Working on your goal: "+tifa.getGoal().toString());
+	  	 		data.add(timeRn.toString()+" |  Work on your goal:  "+tifa.getGoal().toString());
 	  	 			timeRn=timeRn.plusMinutes(goaltime);
-	  	 		data.add(timeRn.toString()+", Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTime));
+	  	 		data.add(timeRn.toString()+" |  Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTime));
 	  	 			timeRn=timeRn.plusMinutes(restTime);
 	  	 		}
 	  	 		
 	  	 		
- 	 	 		System.out.println("G O A L T I M E and timern "+goaltime+"    "+timeRn);
+ 	 	 		//System.out.println("G O A L T I M E and timern "+goaltime+"    "+timeRn);
 
-	 	 		data.add(timeRn.toString()+",  Use phone ");
+	 	 		data.add(timeRn.toString()+" |  Use phone ");
 	            timeRn=timeRn.plusMinutes(phoneTime);
 
 	 	 	//	model.addAttribute("goalTime",LocalTime.parse("00:00").plusMinutes(goaltime));
 	 	 		
 	            if(commuteTime!=0)
 	            {
-	 	 		data.add(timeRn.toString() +", Commute from home ");
+	 	 		data.add(timeRn.toString() +" |  Commute from home ");
  	 	 		timeRn=timeRn.plusMinutes(commuteTime);
 	            }	 	 		
 	 	 			
-	 			data.add("work from "+tifa.getWorkingHoursFrom()+" to "+tifa.getWorkingHoursTo());
+	 			data.add("Work from "+tifa.getWorkingHoursFrom()+" to "+tifa.getWorkingHoursTo());
 	 			timeRn=timeRn.plusMinutes(workHours.toMinutes());
 	 			
 	 			timeRn=timeRn.plusMinutes(restTimeAfterWork);
-	 			data.add(timeRn.toString()+", Take rest from "+ timeRn.toString() +" to "+ timeRn.plusMinutes(restTimeAfterWork));
+	 			data.add(timeRn.toString()+" |  Take rest from "+ timeRn.toString() +" to "+ timeRn.plusMinutes(restTimeAfterWork));
 	 			
 	 	 		model.addAttribute("data",data);
 	 	 	
@@ -505,19 +562,19 @@ public class TimeFactorController {
  	 	 	    goaltime= varDuration.toMinutes();
  	 	 		restTime=goaltime*20/100;
  	  	 		goaltime=goaltime-restTime;
-	 	 		data.add(LocalTime.parse("00:00").plusMinutes(goaltime)+" hrs is total time in a normal working day that you can spend on your Goal ");
+	 	 		data.add(LocalTime.parse("00:00").plusMinutes(goaltime)+" hours is the total time in a usual working day that you can spend on your Goal ");
  	  	 		// inserting goaltime and resttime in order of the occouraces of them
  	  	 		
-// timeOverFlow Validation
+// timeOverFlow Validation 
  	 			
  	  	 	long totalMinutesUsedInADay=gettingReady+workHours.toMinutes()+commuteTime*2+workoutTime+mealTime+phoneTime+gettingReadyForSleep+sleepTime+restTimeAfterWork+goaltime+restTime;
  	 		 System.out.println(" M I N U T E S "+ totalMinutesUsedInADay);
  	 		
 	 		  if(totalMinutesUsedInADay>1439) {
 	 		  
-	 		  System.out.println("is after 00:00");
+	 		 // System.out.println("is after 00:00");
 	 		  model.addAttribute(
-	 		  "timeOverflowError","Error info: Time overflow Error: The time you are spending in a day is more than 24 Hours, please select less time from what you have already selected in the dropdown list and please try again"
+	 		  "timeOverflowError","Time overflow Error: The time you are spending in a day is more than 24 Hours, please select less time from what you have already selected in the dropdown list and please try again"
 			  );
 			  
 			  return "create-schedule";
@@ -525,27 +582,69 @@ public class TimeFactorController {
 			  	
  	  	 		
  	 			
- 	 		List<TimeFactorLabelValueInterface> timeFactorLabelValueInterface= object.getLabelAndValueByUsername(username);
+ 	 		List<TimeFactorLabelValueInterface> timeFactorLabelValueInterface= jpanewOfflineTableRepo.getLabelAndValueByUsername(username);
  	 		
  	 			if(timeFactorLabelValueInterface!=null)
  	 			{
  	 				//if user schedule already exist, delete it
- 	 				System.out.println("User schedule already exist");
- 	 				object.deleteUser(username);
+ 	 				//System.out.println("User schedule already exist");
+ 	 				jpanewOfflineTableRepo.deleteUser(username);
  	 			}
  	 			 
- 		 		object.insertUser(" Wake up, its time.", gettingReady, username);
- 	 	 		object.insertUser(" Commute from home ", commuteTime, username);
- 		 		object.insertUser(" Working hours", workHours.toMinutes(), username);
- 		 		object.insertUser(" Commute from work to home ", commuteTime, username);
- 		 		object.insertUser(" Rest after work ", restTimeAfterWork, username);
+ 	 			
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Wake up time. ", String.valueOf(gettingReady), username)); 
 
- 		 		object.insertUser("  Workout time", workoutTime, username);
- 		 		object.insertUser("  Have meal ", mealTime, username);
- 		 		object.insertUser("  Time you work on your goal ", goaltime, username);
- 		 		object.insertUser("  Rest time in a day ", restTime, username);	 				object.insertUser(" Use phone ", phoneTime, username);
- 	 		    object.insertUser(" Start getting ready for sleeping", gettingReadyForSleep, username);
- 	 		    object.insertUser("  Turn the sleep mode ON", sleepTime, username);
+ 		 		//object.insertUser(" Wake up time.", gettingReady, username);
+ 		 		
+ 		 		if(commuteTime!=0)
+ 		 		{
+ 	 	 			jpanewOfflineTableRepo.save(new newofflinetable(" Commute from home  ", String.valueOf(commuteTime), username)); 
+
+ 	 	 		//object.insertUser(" Commute from home ", commuteTime, username);
+ 		 		}
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Working hours ", String.valueOf(workHours.toMinutes()), username)); 
+
+ 		 		//object.insertUser(" Working hours", workHours.toMinutes(), username);
+ 		 		if(commuteTime!=0)
+ 		 		{
+ 	 	 			jpanewOfflineTableRepo.save(new newofflinetable(" Commute from work to home ", String.valueOf(commuteTime), username)); 
+
+ 		 		//object.insertUser(" Commute from work to home ", commuteTime, username);
+ 		 		}
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable(" Rest after work  ", String.valueOf(restTimeAfterWork), username)); 
+
+ 		 		//object.insertUser(" Rest after work ", restTimeAfterWork, username);
+
+if(workoutTime!=0)
+{
+		jpanewOfflineTableRepo.save(new newofflinetable("   Workout time ", String.valueOf(workoutTime), username)); 
+
+		//object.insertUser("  Workout time", workoutTime, username);
+}
+	jpanewOfflineTableRepo.save(new newofflinetable("  Have meal ", String.valueOf(mealTime), username)); 
+
+		jpanewOfflineTableRepo.save(new newofflinetable("  Sleep time ", String.valueOf(sleepTime), username)); 
+			jpanewOfflineTableRepo.save(new newofflinetable(" Time for your goal ", String.valueOf(goaltime), username)); 
+	 			jpanewOfflineTableRepo.save(new newofflinetable("  Rest time in a day  ", String.valueOf(restTime), username)); 
+
+	
+	
+ 		 		//object.insertUser("  Have meal ", mealTime, username);
+ 		 		//object.insertUser("  Time for your goal ", goaltime, username);
+ 		 		//object.insertUser(" Rest time in a day ", restTime, username);
+ 		 		
+ 		 		if(phoneTime!=0)
+ 		 		{
+ 	 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Use phone  ", String.valueOf(phoneTime), username)); 
+
+ 		 		//object.insertUser(" Use phone ", phoneTime, username);
+ 		 		}
+ 		 		
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable(" Getting ready for sleep ", String.valueOf(gettingReadyForSleep), username)); 
+ 	 			jpanewOfflineTableRepo.save(new newofflinetable("  Sleep time ", String.valueOf(sleepTime), username)); 
+
+ 	 		   // object.insertUser("Getting ready for sleep", gettingReadyForSleep, username);
+ 	 		    //object.insertUser("Sleep time", sleepTime, username);
 
  	 				
  	 			 
@@ -556,38 +655,38 @@ public class TimeFactorController {
  			}
  	 		
  	 		
-	 			data.add(timeRn.toString()+"  Wake up, its time, get ready till "+timeRn.plusMinutes(gettingReady));
+	 			data.add(timeRn.toString()+" |  Wake up, it's time, get ready till "+timeRn.plusMinutes(gettingReady));
   	 		timeRn=timeRn.plusMinutes(gettingReady);
  	 		
   	 		
             if(commuteTime!=0)
             {
- 	 		data.add(timeRn.toString() +"  Commute from home ");
+ 	 		data.add(timeRn.toString() +" |  Commute from home ");
   	 		timeRn= timeRn.plusMinutes(commuteTime);
             }
  	 		
  			timeRn=timeRn.plusMinutes(workHours.toMinutes());
- 			data.add("work from "+tifa.getWorkingHoursFrom()+" to "+tifa.getWorkingHoursTo());
+ 			data.add("Work from "+tifa.getWorkingHoursFrom()+" to "+tifa.getWorkingHoursTo());
 
  			if(commuteTime!=0)
  			{
-	 	 	data.add(timeRn.toString()+"  Commute from work to home");
+	 	 	data.add(timeRn.toString()+" |  Commute from work to home");
  	 	 	timeRn=timeRn.plusMinutes(commuteTime);
  			}
  	 		
  	 	 	
- 	 		data.add(timeRn.toString()+ " Rest after work "+timeRn.toString()+" to "+timeRn.plusMinutes(restTimeAfterWork));
+ 	 		data.add(timeRn.toString()+ " |  Rest after work from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTimeAfterWork));
    	 		timeRn=timeRn.plusMinutes(restTimeAfterWork);
  	 		// total rest time will be the 20% + this 20 mins
 	 		
   	 		if(workoutTime!=0)
   	 		{
-  	 		data.add(timeRn.toString()+"  Start working out ");
+  	 		data.add(timeRn.toString()+" |  Workout  ");
    	 		timeRn=timeRn.plusMinutes(workoutTime);
   	 		
   	 		}
   	 		
-   		    data.add(timeRn.toString()+"  Have meal ");
+   		    data.add(timeRn.toString()+" |  Have a meal ");
  	 		timeRn=timeRn.plusMinutes(mealTime);
 	 		
 	 		
@@ -595,9 +694,9 @@ public class TimeFactorController {
  			
 
   	 		
-  	 		System.out.println("G O A L T I M E and timern "+goaltime+"    "+timeRn);
+  	 		//System.out.println("G O A L T I M E and timern "+goaltime+"    "+timeRn);
 
- 	 		data.add(timeRn.toString()+" Work on your goal: "+tifa.getGoal().toString());	
+ 	 		data.add(timeRn.toString()+" |  Work on your goal: "+tifa.getGoal().toString());	
 			/* timeRn=timeRn.plusMinutes(goaltime); */
  	 		
   	 		
@@ -609,11 +708,11 @@ public class TimeFactorController {
 	  	 		if(goaltime-120>=60)
 	  	 		{
 	  	 			
-	  	 			data.add(timeRn.toString()+" Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(30));
+	  	 			data.add(timeRn.toString()+" |  Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(30));
 	  	 			timeRn=timeRn.plusMinutes(30);
 	  	 			restTime=restTime-30;
 	  	 			
-	  	 			data.add(timeRn.toString()+" Get back to Working on your goal: "+tifa.getGoal().toString());
+	  	 			data.add(timeRn.toString()+" |  Work on your goal: : "+tifa.getGoal().toString());
   	 			timeRn=timeRn.plusMinutes(120);
   	 			goaltime=goaltime-120;
   	 			
@@ -621,12 +720,12 @@ public class TimeFactorController {
 	  	 		}
 	  	 		else
 	  	 		{
-	  	 			data.add(timeRn.toString()+" Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTime));
+	  	 			data.add(timeRn.toString()+" |  Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTime));
 		 			timeRn=timeRn.plusMinutes(restTime);
 		 			restTime=restTime-restTime;
 	  	 			
 	  	 			
-	  	 		data.add(timeRn.toString()+" Get back to Working on your goal: "+tifa.getGoal().toString()+", till "+timeRn.plusMinutes(goaltime));
+	  	 		data.add(timeRn.toString()+" |  Work on your goal: "+tifa.getGoal().toString()+", till "+timeRn.plusMinutes(goaltime));
  	  	 		timeRn=timeRn.plusMinutes(goaltime); 
  	  	 	    goaltime=goaltime-goaltime;
  	  	 	
@@ -637,29 +736,30 @@ public class TimeFactorController {
   	 		// it will run the below code when the goaltime is less than 120 from the starting
   	 		if(goaltime>0 && restTime>0) 
   	 		{ 
-  	 		data.add(timeRn.toString()+" Get back to Working on your goal: "+tifa.getGoal().toString());
+  	 		data.add(timeRn.toString()+"  |  Work on your goal: "+tifa.getGoal().toString());
   	 			timeRn=timeRn.plusMinutes(goaltime);
-  	 		data.add(timeRn.toString()+" Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTime));
+  	 		data.add(timeRn.toString()+" |  Take rest from "+timeRn.toString()+" to "+timeRn.plusMinutes(restTime));
   	 			timeRn=timeRn.plusMinutes(restTime);
   	 		}
 
- 	 		data.add(timeRn.toString()+"  Use phone till "+timeRn.plusMinutes(phoneTime));
+ 	 		data.add(timeRn.toString()+" |  Use phone till "+timeRn.plusMinutes(phoneTime));
 	 		timeRn=timeRn.plusMinutes(phoneTime);
  	 		
  			// this will have the hours and minutes not just hours
  		    
  		    
 	 		
- 		    data.add(timeRn.toString()+" Start getting ready for sleeping");
+ 		    data.add(timeRn.toString()+" |  Start getting ready to sleep");
 	 	 		
  		    timeRn=timeRn.plusMinutes(gettingReadyForSleep);
-  		    data.add(timeRn.toString()+"  Turn the sleep mode ON ");
+  		    data.add(timeRn.toString()+" |  Go to sleep ");
   		    timeRn=workingHoursTo;
   		    
- 			System.out.println("T O T A L T I M E " +totalTimeBeingUsed);
-
- 		 	System.out.println("t i m e R n is "+timeRn.toString());
-				
+				/*
+				 * System.out.println("T O T A L T I M E " +totalTimeBeingUsed);
+				 * 
+				 * System.out.println("t i m e R n is "+timeRn.toString());
+				 */	
 		    model.addAttribute("data",data);
 		    
 		     		 
@@ -673,10 +773,10 @@ public class TimeFactorController {
  	 		
  	 		
  	 		
- 	 		 List<TimeFactorLabelValueInterface> entityVal= object.getLabelAndValueByUsername(username); 
+ 	 		 List<TimeFactorLabelValueInterface> entityVal= jpanewOfflineTableRepo.getLabelAndValueByUsername(username); 
  			   if(entityVal!=null) 
  			  {
- 				   model.put("message", tifa.getUsername()	  +", Your previous schedule details are deleted and these details are saved and are safe with us");
+ 				   model.put("message", "Hello "+tifa.getUsername()	  +", Your new healthy schedule is here. ");
 			/* object.deleteByUsername(tifa.getUsername()); */
  				   // object.deleteByUsername(getLoggedInUserName());
  				   object.save(tifa);
@@ -684,13 +784,13 @@ public class TimeFactorController {
  			     else  
  			     {
  	 		  model.put("message", "Thank you "+tifa.getUsername()
- 			  +" Your details are saved and are safe with us");  
+ 			  +" Your details are saved.");  
  	 		  object.save(tifa);
  			     }
  	 		
 		/*
 		 * object.insertUser("labelName", 100, "userNameName");
-		 */ 			   System.out.println("HOPEFULLY SAVED");
+		 */ 			   //System.out.println("HOPEFULLY SAVED");
  			   
  		 	return "fresh-schedule";
    			
@@ -700,11 +800,16 @@ public class TimeFactorController {
  	private String makeChart(List<TimeFactorLabelValueInterface> timeFactorLabelValueInterface,String username) throws JsonProcessingException
  	{
  		 
- 		 List<TimeFactorLabelValueInterface> timeFactorLabelValueInterfaces=object.getLabelAndValueByUsername(username);
+ 		 List<TimeFactorLabelValueInterface> timeFactorLabelValueInterfaces=jpanewOfflineTableRepo.getLabelAndValueByUsername(username);
 	 		ObjectMapper objectMapper=new ObjectMapper();
-	 		String jsonString=objectMapper.writeValueAsString(timeFactorLabelValueInterfaces);
+	 	String jsonString=
+objectMapper.writeValueAsString(timeFactorLabelValueInterfaces);
 	 		
 	 			
+	 	System.out.println("jsonstring "+jsonString);
+	 	System.out.println("username "+username);
+
+	 	
 	 		
  		return jsonString;
  		

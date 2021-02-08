@@ -55,16 +55,37 @@ public String welcome(Model model)
 	  model.addAttribute("message","");
   }
   model.addAttribute("fbList",fbList); 
-  return "user";
+  return "feedback-all";
 }
 	
+@GetMapping("/feedback-all")
+public String showFeedback(Model model)
+{
+List<Feedback> ownFeedback=jpaFeedbackRepository.findByUsername(getLoggedInUserName());
+	
+	if(!ownFeedback.isEmpty())
+	{
+		model.addAttribute("ownfeedback",ownFeedback);
+	}
+	
+  List<Feedback> fbList=	jpaFeedbackRepository.findAll();
+  if(fbList.isEmpty())
+  {
+	  model.addAttribute("message","");
+  }
+  model.addAttribute("fbList",fbList); 
+	  return "feedback-all";
+}
+
+
+
 	 
 	@PostMapping("/savefb")
 	public String saveString(@ModelAttribute("fb") Feedback fb,Model model)
 	 {
 		fb.setUsername(getLoggedInUserName());
 		
- 
+		
 		
 		
  		List<Feedback> objOptional=jpaFeedbackRepository.findByUsername(fb.getUsername());
@@ -82,7 +103,7 @@ public String welcome(Model model)
 		
 		jpaFeedbackRepository.save(fb);
 	    model.addAttribute("fb",fb);
-		System.out.println("U S E R N A  M E " +fb.getId());
+		//System.out.println("U S E R N A  M E " +fb.getId());
 		}
 		
 		

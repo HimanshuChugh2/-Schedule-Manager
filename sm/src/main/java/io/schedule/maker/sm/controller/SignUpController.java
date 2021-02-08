@@ -33,7 +33,7 @@ public class SignUpController {
 	@RequestMapping(value = "sign-up", method = RequestMethod.POST)
 	public String signUpPost(@ModelAttribute("signUpUser") @Valid SignUpUserDetails signUpUser,BindingResult bindingResult, ModelMap model) {
 		if (bindingResult.hasErrors()) {
-			System.out.println("in E R R O R");
+		//	System.out.println("in E R R O R");
 			return "sign-up";
 		}
 		

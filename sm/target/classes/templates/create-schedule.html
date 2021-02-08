@@ -2,8 +2,8 @@
  <head th:insert="fragments/header :: headHeader">
 
 
-    <title>Hello, world!</title>
   </head> 	
+    <title>Creating...</title>
 
 
 <body class="outerdiv">
@@ -11,20 +11,21 @@
     <div th:insert="fragments/header :: header">
       </div>
       
-       <div class="container" style="min-height=:100%">
+       <div>
         
      <form  action="#" th:action="@{/save}"  method="post" th:object="${tifa}">
     
-      <div th:if="${timeOverflowError}"   class="alert alert-danger"> 
-	      <h4 class="alert-heading">Oops.. An error occurred</h4>
-	
+      <div  th:if="${timeOverflowError}"   class="alert alert-danger innerdivCreateSchedule center"> 
+  	      <h4 class="alert-heading">
+  	      	    <i class="fas fa-exclamation-circle"></i>
+  	      
+  	      Oops.. Something isn't right</h4>
+	<hr>
 	<span th:text="${timeOverflowError}"></span>
-	</div>
-     
-     <table>
+	</div>	
+      <table>
      
       
-     
      <tr th:each="okay, iterstat: ${test}">
      <td th:text="${okay}" th:id="|td${iterstat.index}|"> </td>
    </tr>
@@ -39,7 +40,7 @@
 	 
 	
 	
-    <div class="border w-75 p-5 shadow-lg p-5 mb-5 bg-white rounded" > 
+    <div class="border shadow-lg bg-white rounded innerdivCreateSchedule center" > 
 <!--      <input type="text"   >
  -->  
  
@@ -52,21 +53,20 @@
     
        
     <div class="form-group">
-   <label for="workingHours">Do you work ?</label>
+   <label for="workingHours"><b>Do you work ?</b></label>
     <input type="checkbox" id="mycheck"  onClick="functionForCheckbox()" >
     </div>
    
     <div id="toHide" style="display:none">
     
-    
    <div class="row">
    <div class="col-sm-6">
-    <label   id="timeFromLabel" for="timeFrom" >I work from </label>
-   	<input   type="time" id="timeFrom"   class="form-control"  th:field="${tifa.workingHoursFrom}"  />
+    <label  id="timeFromLabel" for="timeFrom" ><b>I work from</b> </label>
+   	<input  type="time" id="timeFrom"   class="form-control"  th:field="${tifa.workingHoursFrom}"  />
    </div>	
    
    <div class="col-sm-6">
-   <label   id="timeToLabel" for="timeTo" >To </label>
+   <label   id="timeToLabel" for="timeTo" ><b>To </b></label>
    <input   type="time" id="timeTo" style="display:block"   class="form-control"   th:field="${tifa.workingHoursTo}"/>
    </div>
    </div>
@@ -74,23 +74,23 @@
       <div class="form-group">
     <input type="text" style="display:none"  name="username" id="username"   th:field="${tifa.username}">
    </div>
-    
+    <br>
     <div class="form-group">
     <input type="text" style="display:none"  name="commuteTime" id="commuteTime" th:field="${tifa.commuteTime}">
-   <label   id="commuteTimeLabel" for="commuteTime">     Time you spend in commuting
+   <label   id="commuteTimeLabel" for="commuteTime"> <b>   How much time do you spend in commuting</b>
         </label>
    
        
     <div class="row"> 
     <div class="col-sm-6 form-group"> 
       <select id="timeToSelectHour"    class="form-control" onChange="convertToMinutes('commuteTime','timeToSelectHour','timeToSelectMinutes')"> 
-                     <option value="">Enter Hours</option>
+                     <option value="">Select Hours</option>
    </select>
    </div>
    
    <div class="col-sm-6 form-group">
     <select id="timeToSelectMinutes"     class="form-control" onChange="convertToMinutes('commuteTime','timeToSelectHour','timeToSelectMinutes')">
-   <option value="">Enter Minutes</option> 
+   <option value=""> Select Minutes</option> 
    </select>
     </div>
     </div>
@@ -103,19 +103,19 @@
    
    <div class="form-group">
      
-    <label id="workoutTimelabel" for="workoutTime">Time you spend in Workout </label>
+    <label id="workoutTimelabel" for="workoutTime"><b>How much time do you spend in Workout </b></label>
     <input type="text"  style="display:none"   name="workoutTime"  id="workoutTime" class="form-control form-control-sm"  placeholder="Workout Time" th:field="${tifa.workoutTime}"> 
    
     <div class="row"> 
     <div class="col-sm-6 form-group"> 
     <select id="timeToSelectHour1"    class="form-control" onChange="convertToMinutes('workoutTime','timeToSelectHour1','timeToSelectMinutes1')"> 
-                     <option value="">Enter Hours</option> 
+                     <option value="">Select Hours</option> 
    </select>
    </div>
    
    <div class="col-sm-6 form-group">
     <select id="timeToSelectMinutes1"    class="form-control" onChange="convertToMinutes('workoutTime','timeToSelectHour1','timeToSelectMinutes1')" >
-   <option value="">Enter Minutes</option> 
+   <option value="">Select Minutes</option> 
    </select>
     </div>
      </div>
@@ -145,7 +145,7 @@
    
    </select> -->
      <div class="form-group">
-      <label   id="phoneTimelabel" for="phoneTime">Time you spend while talking/using phone throughout the day </label>
+      <label   id="phoneTimelabel" for="phoneTime"><b>Time you spend while talking/using phone throughout the day</b> </label>
       
    <input type="text" style="display:none" required name="phoneTime" id="phoneTime" th:field="${tifa.phoneTime}">
    
@@ -156,26 +156,27 @@
      <div class="row"> 
     <div class="col-sm-6 form-group"> 
     <select id="timeToSelectHour2"    class="form-control" onChange="convertToMinutes('phoneTime','timeToSelectHour2','timeToSelectMinutes2')"> 
-                     <option value="">Enter Hours</option> 
+                     <option value=""><b>Select Hours</b></option> 
    </select>
    </div>
    
    <div class="col-sm-6 form-group">
     <select id="timeToSelectMinutes2"    class="form-control" onChange="convertToMinutes('phoneTime','timeToSelectHour2','timeToSelectMinutes2')" >
-   <option value="">Enter Minutes</option> 
+   <option value="">Select Minutes</option> 
    </select>
     </div>
     </div>
     </div>
          
+              <div class="form-group">
          
          
-              <label> How much time do you sleep </label>
+              <label><b> How many hours do you sleep in 24 hours</b> </label>
               <input type="text" style="display:none" required name="phoneTime" id="sleepTime" th:field="${tifa.sleepTime}">
               
-       <div class="row form-group"> 
+       <div class="row"> 
    
-        <div class="col-sm-6">
+        <div class="col-sm-6 form-group">
        
       
         <select id="timeToSelectHour3" class="form-control" onChange="convertToMinutes('sleepTime','timeToSelectHour3','timeToSelectMinutes3')">
@@ -184,15 +185,22 @@
    		</select>
         </div>
        
-            <div class="col-sm-6">
+            <div class="col-sm-6 form-group">
        
          <select id="timeToSelectMinutes3"  class="form-control">
    		<option value="">Select Minutes </option> 
     	</select>
        </div>
     </div>
-   <input type="submit" class="btn btn-primary" onClick="reload()" value="create">
-    </div> 
+
+    </div>
+   <button type="submit" class="btn btn-primary" onClick="reload()">
+   <i class="far fa-calendar-plus"></i>
+      &nbsp;
+   
+    Create
+   </button>
+    </div>
   </div>
    
    <div>
@@ -201,6 +209,10 @@
     </div>
     </form>
    
+   <hr>
+          <footer id="footerSm" th:replace="fragments/header ::  footerSm">
+       
+        </footer>
    </div>
 
 <!--   <div th:insert="fragments/footer :: footer"></div>
