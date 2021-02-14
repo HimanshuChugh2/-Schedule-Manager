@@ -1,0 +1,316 @@
+/* .outerdiv
+{
+	
+background: #000428;  fallback for old browsers
+background: -webkit-linear-gradient(to right, #004e92, #000428);  Chrome 10-25, Safari 5.1-6
+background: linear-gradient(to right, #004e92, #000428); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+
+
+}
+ */
+ 
+ @media only screen and (min-width: 768px) {
+ .outerdiv {
+background: #56CCF2;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2F80ED, #56CCF2);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2F80ED, #56CCF2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.navbar{
+	
+background: #56CCF2;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2F80ED, #56CCF2);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2F80ED, #56CCF2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	
+	
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 52%}
+    50%{background-position:100% 49%}
+    100%{background-position:0% 52%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 52%}
+    50%{background-position:100% 49%}
+    100%{background-position:0% 52%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 52%}
+    50%{background-position:100% 49%}
+    100%{background-position:0% 52%}
+}
+
+
+
+
+
+
+
+
+
+
+ 
+.innerdiv
+{
+	
+/* background-color: #ADD8E6; */
+
+		padding: 30px;
+		max-width: 400px;
+ 	 	
+ 		
+ /* 	width:800px; margin:0 auto; *//*  to align div in middle */
+} 
+html, body {
+  height: 100%;
+}
+
+h2
+{
+	color:white;
+}
+
+.center {
+margin: auto;
+  }
+ 
+/*   
+.myslider { 
+    -webkit-appearance: none; 
+    background: #FCF3CF  ; 
+    width: 50%; 
+    height: 20px; 
+    opacity: 2; 
+   } 
+  
+  
+.myslider::-webkit-slider-thumb { 
+    -webkit-appearance: none; 
+    cursor: pointer; 
+    background: #34495E; 
+    width: 5%; 
+    height: 20px; 
+}  */
+  
+ 
+ 
+#sliderRange
+{
+  background: linear-gradient(to right, #0C9B4A 0%, #05FC70 50%, #fff 90%, #fff 100%);
+  border: solid 1px #82CFD0;
+  border-radius: 8px;
+  height: 1.5%;
+  width: 90%;
+  min-width:60%;
+  max-width:90%;
+  outline: none;
+  transition: background 450ms ease-in;
+  -webkit-appearance: none;
+}
+ 
+
+.footer {
+   position: bottom;
+   left: 0;
+   bottom: 0;
+   top:100%;
+   width: 100%;
+   height:7%;
+   background-color: black;
+   color: white;
+   text-align: center;
+}
+
+
+
+ .innerdivCreateSchedule
+ {
+ 
+ padding:40px;
+ max-width:700px;
+ 
+ }
+ 
+ .wrapper {
+height: 500px !important;
+}
+
+#footerSm{
+background: #56CCF2;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2F80ED, #56CCF2);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2F80ED, #56CCF2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+
+
+/* #MyPieChart{
+width: 100%;
+height: 100%;
+}
+ */
+
+
+}
+
+@media only screen and (max-width: 600px)
+ {
+ 
+ 
+ 
+ 
+ 
+ 
+  .outerdiv {
+background: #56CCF2;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2F80ED, #56CCF2);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2F80ED, #56CCF2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.navbar{
+	
+background: #56CCF2;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2F80ED, #56CCF2);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2F80ED, #56CCF2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	
+	
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 52%}
+    50%{background-position:100% 49%}
+    100%{background-position:0% 52%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 52%}
+    50%{background-position:100% 49%}
+    100%{background-position:0% 52%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 52%}
+    50%{background-position:100% 49%}
+    100%{background-position:0% 52%}
+}
+
+
+
+
+
+
+
+
+
+
+ 
+.innerdiv
+{
+	
+/* background-color: #ADD8E6; */
+
+		padding: 30px;
+		max-width: 400px;
+ 	 	
+ 		
+ /* 	width:800px; margin:0 auto; *//*  to align div in middle */
+} 
+html, body {
+  height: 100%;
+}
+
+h2
+{
+	color:white;
+}
+
+.center {
+margin: auto;
+  }
+ 
+/*   
+.myslider { 
+    -webkit-appearance: none; 
+    background: #FCF3CF  ; 
+    width: 50%; 
+    height: 20px; 
+    opacity: 2; 
+   } 
+  
+  
+.myslider::-webkit-slider-thumb { 
+    -webkit-appearance: none; 
+    cursor: pointer; 
+    background: #34495E; 
+    width: 5%; 
+    height: 20px; 
+}  */
+  
+ 
+ 
+#sliderRange
+{
+  background: linear-gradient(to right, #0C9B4A 0%, #05FC70 50%, #fff 90%, #fff 100%);
+  border: solid 1px #82CFD0;
+  border-radius: 8px;
+  height: 1.5%;
+  width: 90%;
+  min-width:60%;
+  max-width:90%;
+  outline: none;
+  transition: background 450ms ease-in;
+  -webkit-appearance: none;
+}
+ 
+
+.footer {
+   position: bottom;
+   left: 0;
+   bottom: 0;
+   top:100%;
+   width: 100%;
+   height:7%;
+   background-color: black;
+   color: white;
+   text-align: center;
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ .innerdivCreateSchedule
+ {
+ 
+ padding:20px;
+ 
+ }
+ 
+ 
+ 
+#footerSm{
+background: #56CCF2;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2F80ED, #56CCF2);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2F80ED, #56CCF2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+
+/* #MyPieChart{
+width: 100%;
+height: 100%;
+}
+ */
+
+ }
+ @media print {
+  .noPrint{
+    display:none;
+  }
+
+  

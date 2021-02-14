@@ -1,0 +1,137 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/header :: headHeader">
+</head> 
+
+
+<title>Your Schedule is Ready!</title>
+
+<body class="outerdiv">
+
+ <div th:insert="fragments/header :: header">
+ </div>
+      <div class="container" style="height=:100%">
+<form> <!-- th:object="${tifaTwo}" -->
+
+
+ <div th:if="${message}"  class="alert alert-primary">
+	<span th:text="${message}"></span>
+	</div>
+<!-- <h2 th:text="${tifaTwo.goal}"></h2>   <br/> -->
+
+
+<table class="table table-bordered table-dark table-hover">
+  <tbody>
+
+<tr th:each="datavar,iterstat : ${data}" th:style="${iterstat.odd}? 'font-weight: bold;'">
+	  <th scope="row" th:text="${iterstat.index}">1</th>
+	 	
+	 	
+     <td th:text="${datavar}" th:id="|td${iterstat.index}|" scope="col"> </td>
+ 
+	
+</tr>
+</tbody>
+</table>
+ 	
+ 	
+     
+    <div class="chart-container " style="position: relative; height:70vh; width:90vw">
+   <canvas class="bg-light" id="MyPieChart" ></canvas>
+</div>
+    
+    <br>
+
+
+  
+
+
+
+<!-- <table class="table table-bordered table-striped">
+
+<tr><td> Start getting ready for work at: </td><td th:text="${gettingReady}">  </td></tr>  
+
+<tr><td>Start commuting to work from  : </td><td th:text="${commutefromhome}"> </td></tr>  
+
+<tr><td>Work </td> <td th:text="${'from '+ tifaTwo.workingHoursFrom + ' to ' + tifaTwo.workingHoursTo}"> </td></tr> 
+
+ 
+<tr><td>Commute back to home from</td> <td th:text="${tifaTwo.commuteTime}"> </td></tr>   
+ 
+<tr><td>Start working out from </td><td  th:text="${tifaTwo.workoutTime}"> </td></tr>  
+
+<tr><td>Start having a meal from : </td><td th:text="${mealTime}">  </td></tr>   
+
+<tr><td>Use Phone till  </td><td  th:text="${tifaTwo.phoneTime}"> </td></tr> 
+
+<tr><td>Here is the goal time</td> <td th:text="${goalTime}"> </td></tr>  
+
+ 
+<tr><td>Start getting ready for sleep: <td  th:text="${gettingReadyForSleep}">    </td></tr>
+<tr><td>Go to sleep: </td> <td th:text="${goToSleep}">  </tr>
+<tr><td>Good Morning: </td> <td th:text="${wakeUpFromSleep}">  </tr>
+
+</table>
+ -->
+<!--  th:value="${tifaTwo.commuteTime}" th:field="${tifaTwo.commuteTime}" -->
+
+</form>
+<div style="max-width:220px; max-height:200px;" class="m-auto">
+
+    <button onclick="printRoutine()" class="noPrint btn btn-secondary">
+    <i class="fas fa-download"></i>
+    &nbsp;
+
+    Download your routine
+</button>
+</div>
+
+
+<div style="max-width:290px; max-height:200px;" class="m-auto noPrint">
+
+
+ <br>
+  <a style="color:black;" href="feedback"   >
+	How did we do ?&nbsp;&nbsp;
+	<i class="fas fa-mouse-pointer"></i>
+	
+ 	Click here to rate us </a>
+ 
+ </div> 
+ </div>
+ 
+  
+
+<hr>
+         <footer id="footerSm" th:replace="fragments/header ::  footerSm">
+       
+        </footer>
+
+
+<!--   <div th:insert="fragments/footer :: footer"></div>
+ --><script>
+var chartDatafresh	="[[${convertedJson}]]"
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<script type="text/javascript" th:src="@{js/jsfile.js}"></script>	
+
+ <script>
+ 
+ 
+ function printRoutine()
+ {
+	 
+	 window.print();
+ 	 
+ }
+ 
+ </script>
+
+
+</body>
+
+
+
+
+</html>

@@ -1,0 +1,81 @@
+ 
+ 
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  
+     <head th:insert="fragments/header :: headHeader">
+
+  
+    <title>Login to SM</title>
+     
+  </head> 
+  
+  <body class="outerdiv">
+      <div th:insert="fragments/header :: header">
+      </div>
+<!--    
+    <div th:insert="fragments/header :: header">
+
+</div> -->
+<form action="#" 	th:action="@{/login}" method="post">
+  
+	
+ 	<div class="container">
+ 	
+ 	<h2 class="center innerdiv" style="padding-bottom:10px; padding-left:0">	Login here</h2>
+ 	<div  th:if="${param.logout}" class="alert alert-success center innerdiv">
+	You have been logged out from the session
+	</div>
+	
+	<div  th:if="${param.error}" class="alert alert-danger center innerdiv">
+	Invalid username or Password
+	</div>
+
+	
+	
+<!--  	<div class="alert alert" style="max-width:40%">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut. Maecenas imperdiet felis nisi, fringilla luctus felis hendrerit sit amet. Pellentesque interdum, nisl nec interdum maximus, augue diam porttitor lorem, et sollicitudin felis neque sit amet erat.</div>
+-->	
+ <div class="border border-white shadow-lg bg-white rounded innerdiv center"> 
+ 
+ 	 
+	
+		<div class="form-group">
+    <label  for="fullname" >Username:</label>
+     <input required type="text" name="username" autofocus 	  class="form-control form-control-sm"  placeholder="Username" >
+   </div>
+ 
+   <div class="form-group">
+   <label for="password">Password: </label>
+   <input required class="form-control form-control-sm" type="Password" placeholder="password"  name="password">
+          	  <br>
+   
+<!--     <input type="submit"  value="Login"  class="btn btn-warning"/>
+ -->    
+ 
+   <button   type="submit" value="Submit" class="btn btn-primary">
+<i class="fas fa-sign-in-alt"></i>
+
+
+   Login
+   </button>
+    
+    
+    
+    
+   </div>
+    			
+ <a href="sign-up" > Sign up</a>
+       	 </div>
+       	
+       	 	 </div><hr>
+	</form>  
+	         <footer id="footerSm" th:replace="fragments/header ::  footerSm">
+       
+        </footer>
+   </body>
+     <script>
+  document.getElementById("logout").style.display="none";
+
+  </script>
+</html>

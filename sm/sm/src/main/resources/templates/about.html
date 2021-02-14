@@ -1,0 +1,90 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">  
+<head>
+<title>
+How it works
+</title>
+  <head th:replace="fragments/header :: headHeader">
+</head>
+
+
+<body class="outerdiv">
+
+ <div th:replace="fragments/header :: header">
+  </div>
+  
+ 
+ <!--  <form th:action="@{/logout}" method="POST">
+         <input type="submit" value="Logout"/>
+          <a href="/logout" >Logout</a> 
+    </form> -->
+ <div class="container" style="height=:100%">
+
+  
+  <div  class="alert alert-primary">
+ 
+ <div th:if="${username}">
+<h5>  Hello, 
+ <span th:text= "${username}"></span>
+ </h5>
+ <hr>
+ </div>
+<div class="col lg-12">
+            <div class="panel">
+           
+
+            
+            <h3 style="display:inline;"> 
+             <i id="heart" class="fas fa-heart" style="color:blue;"></i>
+            What do we do ?</h3>
+            <ul>
+            <li>We provide a healthy routine that you can follow everyday.</li>
+            <li>We help people save their valuable time and spend it on something that matters to them. </li>
+            <li><a href="create-schedule"> Get your routine for absolutely free.</a></li>
+            </ul>
+            
+            
+            <hr>
+            <h3> Why do you need a routine?</h3>
+                <ul>
+                <li> For Full-time employees, a routine can help you make time for your part time startup or a hobby</li>
+                <li> A routine can help you make time for things that matter</li>
+                <li> It is a healthy practice to have a daily routine. </li>
+                </ul>
+                <hr>
+            
+                <h3>Tips for a Healthier Lifestyle</h3>
+<p>People are creatures of habit, and routines offer a way to promote health and wellness through structure and organization. Having a routine can greatly improve your health.</p>
+<p>Many people who don't have any type of routine suffer from:</p>
+<ul>
+    <li><strong>Stress</strong>. No routine often means having the constant worry of "when will I get it all done."</li>
+    <li><strong>Poor sleep</strong>. Without a daily routine at work and/or home, you may find yourself playing catch-up with yesterday's to-do list. If you're always behind on what should have been done the day before, you're likely also staying awake worrying about what didn't. </li>
+    <li><strong>Poor eating</strong>. Unhealthy diets (like eating lots of fast food) become the norm if there isn't time scheduled for grocery shopping. Quick, unhealthy substitutes become the next best food option.</li>
+    <li><strong>Poor physical condition</strong>. Working out usually requires some advance planning.</li>
+    <li><strong>Ineffective use of time</strong>. Often, no routine means you simply run out of time, leaving things undone and not making the most of your time.</li>
+</ul>
+<br> 
+
+            </div>
+        </div>
+ 
+</div>
+ 
+  </div>
+  <hr>
+       <footer id="footerSm" th:replace="fragments/header ::  footerSm">
+       
+        </footer>
+    
+<!--     <div th:insert="fragments/footer :: footer"></div>
+ -->
+ <script>
+ 
+ if("[[${username}]]" ==="")
+	 {
+ document.getElementById("logout").style.display="none";
+	 }
+ </script>
+ 
+ </body>
+ 
+</html>

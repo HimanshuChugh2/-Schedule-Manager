@@ -1,0 +1,419 @@
+<html xmlns:th="http://www.thymeleaf.org">
+ <head th:insert="fragments/header :: headHeader">
+
+
+  </head> 	
+    <title>Creating...</title>
+
+
+<body class="outerdiv">
+  
+    <div th:insert="fragments/header :: header">
+      </div>
+      
+       <div>
+        
+     <form  action="#" th:action="@{/save}"  method="post" th:object="${tifa}">
+    
+      <div  th:if="${timeOverflowError}"   class="alert alert-danger innerdivCreateSchedule center"> 
+  	      <h4 class="alert-heading">
+  	      	    <i class="fas fa-exclamation-circle"></i>
+  	      
+  	      Oops.. Something isn't right</h4>
+	<hr>
+	<span th:text="${timeOverflowError}"></span>
+	</div>	
+      <table>
+     
+      
+     <tr th:each="okay, iterstat: ${test}">
+     <td th:text="${okay}" th:id="|td${iterstat.index}|"> </td>
+   </tr>
+  </table>
+     
+    <div th:if="${message}"  class="alert alert-primary" > 
+	
+	<span th:text="${message}"></span>
+	</div>
+	
+	
+	 
+	
+	
+    <div class="border shadow-lg bg-white rounded innerdivCreateSchedule center" > 
+<!--      <input type="text"   >
+ -->  
+ 
+ <div>
+    <div class="form-group">
+<!--       <label   id="goalLabel" for="goal">Time you spend eating throughout the day </label>
+ -->      
+   <input type="text" autofocus required class="form-control form-control-sm" placeholder="Enter your goal of creating schedule" name="goal" id="goal" th:field="${tifa.goal}">
+   </div>
+    
+       
+    <div class="form-group">
+   <label for="workingHours"><b>Do you work ?</b></label>
+    <input type="checkbox" id="mycheck"  onClick="functionForCheckbox()" >
+    </div>
+   
+    <div id="toHide" style="display:none">
+    
+   <div class="row">
+   <div class="col-sm-6">
+    <label  id="timeFromLabel" for="timeFrom" ><b>I work from</b> </label>
+   	<input  type="time" id="timeFrom"   class="form-control"  th:field="${tifa.workingHoursFrom}"  />
+   </div>	
+   
+   <div class="col-sm-6">
+   <label   id="timeToLabel" for="timeTo" ><b>To </b></label>
+   <input   type="time" id="timeTo" style="display:block"   class="form-control"   th:field="${tifa.workingHoursTo}"/>
+   </div>
+   </div>
+      	
+      <div class="form-group">
+    <input type="text" style="display:none"  name="username" id="username"   th:field="${tifa.username}">
+   </div>
+    <br>
+    <div class="form-group">
+    <input type="text" style="display:none"  name="commuteTime" id="commuteTime" th:field="${tifa.commuteTime}">
+   <label   id="commuteTimeLabel" for="commuteTime"> <b>   How much time do you spend in commuting</b>
+        </label>
+   
+       
+    <div class="row"> 
+    <div class="col-sm-6 form-group"> 
+      <select id="timeToSelectHour"    class="form-control" onChange="convertToMinutes('commuteTime','timeToSelectHour','timeToSelectMinutes')"> 
+                     <option value="">Select Hours</option>
+   </select>
+   </div>
+   
+   <div class="col-sm-6 form-group">
+    <select id="timeToSelectMinutes"     class="form-control" onChange="convertToMinutes('commuteTime','timeToSelectHour','timeToSelectMinutes')">
+   <option value=""> Select Minutes</option> 
+   </select>
+    </div>
+    </div>
+   </div>
+   
+   
+   
+   </div>
+   
+   
+   <div class="form-group">
+     
+    <label id="workoutTimelabel" for="workoutTime"><b>How much time do you spend in Workout </b></label>
+    <input type="text"  style="display:none"   name="workoutTime"  id="workoutTime" class="form-control form-control-sm"  placeholder="Workout Time" th:field="${tifa.workoutTime}"> 
+   
+    <div class="row"> 
+    <div class="col-sm-6 form-group"> 
+    <select id="timeToSelectHour1"    class="form-control" onChange="convertToMinutes('workoutTime','timeToSelectHour1','timeToSelectMinutes1')"> 
+                     <option value="">Select Hours</option> 
+   </select>
+   </div>
+   
+   <div class="col-sm-6 form-group">
+    <select id="timeToSelectMinutes1"    class="form-control" onChange="convertToMinutes('workoutTime','timeToSelectHour1','timeToSelectMinutes1')" >
+   <option value="">Select Minutes</option> 
+   </select>
+    </div>
+     </div>
+
+   </div>
+    
+   
+  <!--  
+     <div class="form-group">
+      <label   id="mealTimelabel" for="mealTime">Time you spend eating throughout the day </label>
+      
+   <input type="text"   name="mealTime" id="mealTime" class="form-control form-control-sm"  placeholder="Meal Time" th:field="${tifa.mealTime}">
+   </div>
+  -->
+   
+   
+   
+   
+  <!--     <select id="timeToSelectHour"> 
+   <option> select me</option>
+   
+   </select>
+   
+   
+      <select id="timeToSelectHour"> 
+   <option> select me</option>
+   
+   </select> -->
+     <div class="form-group">
+      <label   id="phoneTimelabel" for="phoneTime"><b>Time you spend while talking/using phone throughout the day</b> </label>
+      
+   <input type="text" style="display:none" required name="phoneTime" id="phoneTime" th:field="${tifa.phoneTime}">
+   
+    
+    
+    
+    
+     <div class="row"> 
+    <div class="col-sm-6 form-group"> 
+    <select id="timeToSelectHour2"    class="form-control" onChange="convertToMinutes('phoneTime','timeToSelectHour2','timeToSelectMinutes2')"> 
+                     <option value=""><b>Select Hours</b></option> 
+   </select>
+   </div>
+   
+   <div class="col-sm-6 form-group">
+    <select id="timeToSelectMinutes2"    class="form-control" onChange="convertToMinutes('phoneTime','timeToSelectHour2','timeToSelectMinutes2')" >
+   <option value="">Select Minutes</option> 
+   </select>
+    </div>
+    </div>
+    </div>
+         
+              <div class="form-group">
+         
+         
+              <label><b> How many hours do you sleep in 24 hours</b> </label>
+              <input type="text" style="display:none" required name="phoneTime" id="sleepTime" th:field="${tifa.sleepTime}">
+              
+       <div class="row"> 
+   
+        <div class="col-sm-6 form-group">
+       
+      
+        <select id="timeToSelectHour3" class="form-control" onChange="convertToMinutes('sleepTime','timeToSelectHour3','timeToSelectMinutes3')">
+   		<option value="">Select Hours </option> 
+   	    
+   		</select>
+        </div>
+       
+            <div class="col-sm-6 form-group">
+       
+         <select id="timeToSelectMinutes3"  class="form-control">
+   		<option value="">Select Minutes </option> 
+    	</select>
+       </div>
+    </div>
+
+    </div>
+   <button type="submit" class="btn btn-primary" onClick="reload()">
+   <i class="far fa-calendar-plus"></i>
+      &nbsp;
+   
+    Create
+   </button>
+    </div>
+  </div>
+   
+   <div>
+   <label th:value="${tifa.workingHoursFrom}"></label>
+ 
+    </div>
+    </form>
+   
+   <hr>
+          <footer id="footerSm" th:replace="fragments/header ::  footerSm">
+       
+        </footer>
+   </div>
+
+<!--   <div th:insert="fragments/footer :: footer"></div>
+ -->
+ <script>
+/* function reload()
+{
+	location.reload()
+
+}
+ */
+
+function functionForCheckbox()
+{
+	 
+	var checkbox=document.getElementById("mycheck")
+	var toHide=document.getElementById("toHide")
+	
+	/* document.getElementById("commuteTime").innerHTML=""; */
+ 	/* var commuteTimeLabel=document.getElementById("commuteTimeLabel")
+	
+ 	var commuteTimeText=document.getElementById("commuteTime")
+	var timeFrom= document.getElementById("timeFrom")
+	var timeTo= document.getElementById("timeTo")
+	var timeFromLabel=document.getElementById("timeFromLabel")
+	var timeToLabel=document.getElementById("timeToLabel")
+	var timeToSelectHour=document.getElementById("timeToSelectHour")
+	var timeToSelectMinutes=document.getElementById("timeToSelectMinutes") */
+
+
+	 
+	if(checkbox.checked)
+		{
+		toHide.style.display="block";
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+/*  	commuteTimeText.style.display = "block";
+     	commuteTimeLabel.style.display = "block";
+ 		timeFrom.style.display="block";
+		timeTo.style.display="block";
+		timeFromLabel.style.display="block";
+		timeToLabel.style.display="block";
+		timeToSelectHour.style.display="block";
+		timeToSelectMinutes.style.display="block";	 */	
+/* 		timeTo.required=true;
+		timeFrom.required=true;   */
+	 	}
+	else
+		{
+		
+		toHide.style.display="none";
+
+		
+		/* if user enters the details after checking the checkbox and then unchecks it,
+		all the values must be set to default when he unchecks the checkbox
+		 */
+		
+		
+		
+		
+		 document.getElementById("commuteTime").value="0";
+			 document.getElementById("timeTo").value="00:00:00";
+			 document.getElementById("phoneTime").value="0";
+				 document.getElementById("sleepTime").value="0";
+				 document.getElementById("workoutTime").value="0";
+
+			 document.getElementById("timeFrom").value="00:00:00";
+/*   		commuteTimeText.style.display = "none";
+    	commuteTimeLabel.style.display = "none";
+ 		timeTo.style.display="none";
+		timeFrom.style.display="none";
+		timeFromLabel.style.display="none";
+		timeToLabel.style.display="none";
+		timeToSelectHour.style.display="none";
+		timeToSelectMinutes.style.display="none"; */
+/* 		timeTo.required=false;
+		timeFrom.required=false;  */
+		}
+	}
+	
+	
+	(function()
+	{
+/* 		location.reload()
+ */
+		
+		var timeToSelectHour= document.getElementById("timeToSelectHour")
+		var timeToSelectMinutes= document.getElementById("timeToSelectMinutes")
+		var timeToSelectHour1= document.getElementById("timeToSelectHour1")
+		var timeToSelectMinutes1= document.getElementById("timeToSelectMinutes1")
+		var timeToSelectHour2= document.getElementById("timeToSelectHour2")
+		var timeToSelectMinutes2= document.getElementById("timeToSelectMinutes2")
+		var timeToSelectHour3= document.getElementById("timeToSelectHour3")
+		var timeToSelectMinutes3= document.getElementById("timeToSelectMinutes3")
+		
+ 		
+		
+		for(var i=0;i<60;i++)
+		{
+
+			
+			var newElement2=document.createElement("option")
+			
+			var newElement4=document.createElement("option")
+			
+			var newElement6=document.createElement("option")
+			
+			var newElement8=document.createElement("option")	
+			
+			
+			
+			newElement2.innerHTML=i
+			
+			newElement4.innerHTML=i
+			
+			newElement6.innerHTML=i
+			
+			newElement8.innerHTML=i
+			
+			
+			timeToSelectMinutes.add(newElement2)
+			
+			timeToSelectMinutes1.add(newElement4)
+			
+			timeToSelectMinutes2.add(newElement6)
+			
+			
+			
+			
+			if(i<5)
+			{
+				var newElement1=document.createElement("option")
+				var newElement3=document.createElement("option")
+				var newElement5=document.createElement("option")
+
+				
+				newElement1.innerHTML=i
+				newElement3.innerHTML=i
+				newElement5.innerHTML=i
+				
+				timeToSelectHour.add(newElement1)
+				timeToSelectHour1.add(newElement3)
+				timeToSelectHour2.add(newElement5)
+				
+			}
+			
+			
+			
+			
+			if(i<=8 && i>=6)
+				{
+				var newElement7=document.createElement("option")
+		     	newElement7.innerHTML=i
+ 	 			timeToSelectHour3.add(newElement7)
+				}
+			timeToSelectMinutes3.add(newElement8)  
+			
+			
+		}
+		
+		
+		/* setting the default value to 0 , this is just for not getting error when field is empty*/
+	 
+		 document.getElementById("commuteTime").value="0";
+  			 document.getElementById("timeTo").value="00:00:00";
+  			 document.getElementById("timeFrom").value="00:00:00";
+   			 document.getElementById("phoneTime").value="0";
+					 document.getElementById("sleepTime").value="0";
+					 document.getElementById("workoutTime").value="0";
+
+  	}
+	
+
+	
+	)();
+	
+	// this function will convert values of dropdown list to minutes(int/Number format)
+	function convertToMinutes(id,timeToSelectHour,timeToSelectMinutes)
+	{
+		var timeToSelectHour= document.getElementById(timeToSelectHour).value;
+		var timeToSelectMinutes= document.getElementById(timeToSelectMinutes).value;
+		
+		var convertedValue= (Number(timeToSelectHour)*60)+Number(timeToSelectMinutes)	
+ 		document.getElementById(id).value=convertedValue;
+	}
+	
+	
+ 
+ 	 
+	 
+</script>
+ 
+</body>
+
+</html>
